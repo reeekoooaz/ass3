@@ -1,26 +1,21 @@
 var books = [
-    {
-        title: 'A Brief History of Time',
-        date_published: ' March 1, 1988',
-        author: 'Stephen Hawking',
-        reviews: 146,
-        Price: 10.69,
-        img: 'https://images-na.ssl-images-amazon.com/images/I/617m43n-HWL._SX331_BO1,204,203,200_.jpg',
-    }
+
 ]
 
-var search = document.getElementById('search');
 function doClick() {
+
+    var search = document.getElementById('search');
     var xhttp = new XMLHttpRequest();
     // When the request is successful, finished, and response is ready, execute these function
+    
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var resObj = JSON.parse(xhttp.responseText);
             console.log(resObj)
             for (var i = 0; i < resObj.items.length; i++) {
-                createBookItem(resObj.items[i].volumeInfo)
                 books.push(resObj.items[i].volumeInfo)
             }
+            upDateDOM();
         }
     }
     // Send an asynchronous HTTP GET request to the given end point (url)
@@ -31,6 +26,7 @@ function doClick() {
 function createBookItem(bookObj) {
     var liElem = document.createElement('li')
 
+    console.log(bookObj);
     var img = document.createElement('img');
     img.src = bookObj.imageLinks.thumbnail;
     img.width = 100;
