@@ -1,17 +1,14 @@
-var books = [
-
-]
+var books = []
 
 function doClick() {
 
     var search = document.getElementById('search');
     var xhttp = new XMLHttpRequest();
     // When the request is successful, finished, and response is ready, execute these function
-    
+    books = [ ];
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var resObj = JSON.parse(xhttp.responseText);
-            console.log(resObj)
             for (var i = 0; i < resObj.items.length; i++) {
                 books.push(resObj.items[i].volumeInfo)
             }
@@ -26,7 +23,6 @@ function doClick() {
 function createBookItem(bookObj) {
     var liElem = document.createElement('li')
 
-    console.log(bookObj);
     var img = document.createElement('img');
     img.src = bookObj.imageLinks.thumbnail;
     img.width = 100;
@@ -68,36 +64,25 @@ function createBookItem(bookObj) {
 
 function sortByReviews() {
     books.sort(function (a, b) {
-        return b.reviews - a.reviews;
-    })
-}
-function sortByPriceLow() {
-    books.sort(function (a, b) {
-        return a.Price - b.Price;
-    })
-}
-function sortByPriceHigh() {
-    books.sort(function (a, b) {
-        return b.Price - a.Price;
-
+        return b.ratingsCount - a.ratingsCount;
     })
 }
 function sortByRating() {
     books.sort(function (a, b) {
-        return b.rate - a.rate;
+        return b.averageRating - a.averageRating;
 
     })
 }
 function sortByNewest() {
     books.sort(function (a, b) {
-        var dataAString = Date.parse(a.date_published);
-        var dataBString = Date.parse(b.date_published);
+        var dataAString = Date.parse(a.publishedDate);
+        var dataBString = Date.parse(b.publishedDate);
         return dataBString - dataAString;
     })
 } function sortByOldest() {
     books.sort(function (a, b) {
-        var dataAString = Date.parse(a.date_published);
-        var dataBString = Date.parse(b.date_published);
+        var dataAString = Date.parse(a.publishedDate);
+        var dataBString = Date.parse(b.publishedDate);
         return dataAString - dataBString;
     })
 }
@@ -116,21 +101,12 @@ select.onchange = function () {
     if (select.value === 'Default') {
         sortByReviews()
         upDateDOM()
-    }
-    else if (select.value === 'PriceLow') {
-        sortByPriceLow()
-        upDateDOM()
-    }
-    else if (select.value === 'PriceHigh') {
-        sortByPriceHigh()
-        upDateDOM()
-    }
+    }    
     else if (select.value === 'Rating') {
         sortByRating()
         upDateDOM()
     }
     else if (select.value === 'New') {
-        console.log("test")
         sortByNewest()
         upDateDOM()
     }
