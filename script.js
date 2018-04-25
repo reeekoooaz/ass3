@@ -19,7 +19,7 @@ function doClick() {
     if (this.readyState == 4 && this.status == 200) {
       var resObj = JSON.parse(xhttp.responseText);
       console.log(resObj)
-      for (var i = 0; i < resObj.totalItems; i++) {
+      for (var i = 0; i < resObj.items.length; i++) {
         createBookItem(resObj.items[i].volumeInfo) 
       }      
     }    
@@ -53,25 +53,20 @@ function createBookItem(bookObj) {
   liElem.appendChild(titleLi)
   
   var authorLi = document.createElement('div')
-  authorLi.appendChild(document.createTextNode("Author: " + bookObj.author))
+  authorLi.appendChild(document.createTextNode("Author: " + bookObj.authors[0]))
   liElem.appendChild(authorLi)
 
   var dateLi = document.createElement('div');
-  dateLi.appendChild(document.createTextNode("Published Date: " + bookObj.date_published))
+  dateLi.appendChild(document.createTextNode("Published Date: " + bookObj.publishedDate))
   liElem.appendChild(dateLi);
 
   var reviewsLi = document.createElement('div');
-  reviewsLi.appendChild(document.createTextNode("Reviews: " + bookObj.reviews))
+  reviewsLi.appendChild(document.createTextNode("Reviews: " + bookObj.ratingsCount))
   liElem.appendChild(reviewsLi);
 
   var rateLi = document.createElement('div');
-  rateLi.appendChild(document.createTextNode("Rating: " + bookObj.rate + "/5"))
+  rateLi.appendChild(document.createTextNode("Rating: " + bookObj.averageRating + "/5"))
   liElem.appendChild(rateLi);
-
-  var priceLi = document.createElement('div');
-  priceLi.appendChild(document.createTextNode("Price: " + bookObj.Price + " $"))
-  liElem.appendChild(priceLi);
-  liElem.appendChild(document.createElement("br"));
 
   // create the remaining elements
   return liElem;
